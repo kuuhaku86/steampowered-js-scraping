@@ -1,0 +1,25 @@
+{
+  "name": "steampowered-js-scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuuhaku86/steampowered-js-scraping.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuuhaku86/steampowered-js-scraping/issues"
+  },
+  "homepage": "https://github.com/kuuhaku86/steampowered-js-scraping#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "fast-csv": "^4.3.6",
+    "jsdom": "^20.0.0"
+  }
+}
