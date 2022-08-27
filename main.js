@@ -1,5 +1,4 @@
 const axios = require('axios');
-const jsdom = require("jsdom");
 const fastcsv = require("fast-csv");
 const fs = require("fs");
 var HTMLParser = require('node-html-parser');
