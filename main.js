@@ -36,11 +36,11 @@ async function getData() {
 				});
 
 				datas.push({
-					gameName: gameName,
-					gameLink: gameLink,
-					gameImg: gameImg,
-					gamePrice: gamePrice,
-					gameTags: gameTags,
+					Name: gameName,
+					Link: gameLink,
+					"Image Link": gameImg,
+					Price: gamePrice,
+					Tags: gameTags,
 				});
 			});
 		})
