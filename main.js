@@ -2,37 +2,47 @@ const axios = require('axios');
 const jsdom = require("jsdom");
 const fastcsv = require("fast-csv");
 const fs = require("fs");
+var HTMLParser = require('node-html-parser');
 
 
 async function getData() {
 	let start = 0;
-	const count = 100;
+	const count = 15;
 	const datas = [];
 
 	while (start < 1000) {
 		await axios
-		.get(`https://store.steampowered.com/search/results/?query&start=${start}&count=${count}&dynamic_data=&sort_by=Reviews_DESC&force_infinite=1&tags=21&snr=1_7_7_151_7&infinite=1`)
+		.get(`https://store.steampowered.com/contenthub/querypaginated/category/TopRated/render/?query=&start=${start}&count=${count}&cc=ID&l=english&v=4&tag=&category=adventure_rpg`)
 		.then((response) => {
 			const html = "<div>" + response.data.results_html + "</div>";
-			const dom = new jsdom.JSDOM(html);
-			const games = dom.window.document.querySelectorAll(".search_result_row");
+			const dom = HTMLParser.parse(html);
+			const games = dom.querySelectorAll(".tab_item");
 
-			games.forEach((game) => {
-				const gameName = game.querySelector(".title").innerHTML.trim();
-				const gameLink = game.href.trim();
-				const gameImg = game.querySelector(".search_capsule").querySelector("img").src.trim();
-				const gamePrice = game.querySelector(".search_price").innerHTML.trim();
-				const gameReview = game.querySelector(".search_review_summary").getAttribute("data-tooltip-html").trim();
+			games.forEach(game => {
+				const gameName = game.querySelector(".tab_item_name").textContent.trim();
+				const gameLink = game.attributes.href.trim();
+				const gameImg = game.querySelector(".tab_item_cap_img").attributes.src.trim();
+				let gamePrice = "";
+				
+				if (game.querySelector(".discount_final_price")) {
+					gamePrice = game.querySelector(".discount_final_price").text.trim();
+				}
+
+				let tags = game.querySelector(".tab_item_top_tags").childNodes;
+				let gameTags = "";
+
+				tags.forEach(tag => {
+					gameTags += tag.text;
+				});
 
 				datas.push({
 					gameName: gameName,
 					gameLink: gameLink,
 					gameImg: gameImg,
 					gamePrice: gamePrice,
-					gameReview: gameReview,
+					gameTags: gameTags,
 				});
 			});
-
 		})
 		.catch((error) => {
 			console.error(error)
